@@ -2,7 +2,7 @@
     "name": "hcodebr/ecommerce",
     "authors": [
         {
-            "name": "Hcode Treinamentos",
+            "name": "locemarn",
             "email": "suporte@hcode.com.br"
         }
     ],
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "": "vendor\\hcodebr\\php-classes\\src"
+            "Hcode\\": "vendor\\hcodebr\\php-classes\\src"
         }
     }
 }
