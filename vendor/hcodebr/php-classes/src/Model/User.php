@@ -9,8 +9,8 @@ use \Hcode\Mailer;
 class User extends Model
 {
 
-	const SESSION = "User";
-	const SECRET = "HcodePhp7_Secret";
+	const SESSION = "";
+	const SECRET = "";
 
 	public static function login($login, $password)
 	{
@@ -57,7 +57,9 @@ class User extends Model
 	}
 
 	public static function logout(){
+
 		$_SESSION[User::SESSION] = NULL;
+		
 	}
 	
 	public static function listAll()
@@ -76,7 +78,7 @@ class User extends Model
 		$results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
 			":desperson"=>$this->getdesperson(),
 			":deslogin"=>$this->getdeslogin(),
-			":despassword"=>$this->getdespasswor(),
+			":despassword"=>$this->getdespassword(),
 			":desemail"=>$this->getdesemail(),
 			":nrphone"=>$this->getnrphone(),
 			":inadmin"=>$this->getinadmin()));
@@ -155,7 +157,7 @@ class User extends Model
 				$mailer->send();
 
 				return $data;
-			}
+			
 		}
 	}
 
@@ -187,7 +189,7 @@ class User extends Model
 			return $results[0];
 		}
 	}
-	public static function setFogotUsed($idrecovery)
+	public static function setForgotUsed($idrecovery)
 	{
 		$sql = new Sql();
 		$sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
