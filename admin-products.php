@@ -38,7 +38,8 @@ $app->get("/admin/products/:idproduct", function($idproduct){
 	$product = new Product();
 	$product->get((int)$idproduct);
 	$page = new PageAdmin();
-	$page->setTpl("products-update", array('product'=>$product->getValues()));
+	$page->setTpl("products-update", array("product"=>$product->getValues()
+	));
 });
 
 $app->post("/admin/products/:idproduct", function($idproduct){

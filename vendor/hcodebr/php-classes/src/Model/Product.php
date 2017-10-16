@@ -16,21 +16,24 @@ class Product extends Model
 	}
 
 	public function save(){
-		$sql = new Sql();
-
-		$results = $sql->select("CALL sp_products_save(:idproduct, :desproduct, :vlprice, :vlwidht, :vlheight, :vllength, :vlweight, :desurl)", array(
-			":idproduct"=>$this->getidproduct(),
-			":desproduct"=>$this->getdesproduct(),
-			":vlprice"=>$this->getvlprice(),
-			":vlwidht"=>$this->getvlwidht(),
-			":vlheight"=>$this->getvlheight(),
-			":vllength"=>$this->getvllength(),
-			":vlweight"=>$this->getvlweight(),
-			":desurl"=>$this->getdesurl()
-		));
-
-		$this->setData($results[0]);
-	}
+	$sql = new Sql();
+ 
+        //var_dump($this);
+        //exit;
+ 
+	$results = $sql->select("CALL sp_products_save(:idproduct, :desproduct, :vlprice, :vlwidth, :vlheight, :vllength, :vlweight, :desurl)", array(
+    	    ":idproduct"=>$this->getidproduct(),
+	    ":desproduct"=>$this->getdesproduct(),
+	    ":vlprice"=>$this->getvlprice(),
+	    ":vlwidth"=>$this->getvlwidth(),
+	    ":vlheight"=>$this->getvlheight(),
+	    ":vllength"=>$this->getvllength(),
+	    ":vlweight"=>$this->getvlweight(),
+	    ":desurl"=>$this->getdesurl()
+	));
+ 
+	$this->setData($results[0]);
+}
 
 	public function get($idproduct){
 		$sql = new Sql();
@@ -40,9 +43,9 @@ class Product extends Model
 
 	public function delete(){
 		$sql = new Sql();
-		$results = $sql->query("DELETE FROM tb_products WHERE idproduct = :idproduct", [':idproduct'=>$this->getidproduct()]);
-		
+		$results = $sql->query("DELETE FROM tb_products WHERE idproduct = :idproduct", [':idproduct'=>$this->getidproduct()]);		
 	}
+
 
 	public function checkPhoto(){
 
@@ -55,22 +58,32 @@ class Product extends Model
 		}
 
 		return $this->setdesphoto($url);
+
 	}
 
 	public function getValues(){
+		
 		$this->checkPhoto();
 
 		$values = parent::getValues();
+		return $values;
+
 	}
 
-	public function setPhoto(){
+	public function setPhoto($file){
 
-		  $extension = explode('.', $file['name']);
-		  $extension = end($extension);
-
-		  switch ($extension) {
+		//detectar o tipo de extensão do arquivo
+		/*if(empty( $file['name'])){
+ 			$this->checkPhoto();
+ 		}else{*/
+ 			$extension = explode('.', $file['name']);
+ 			$extension = end($extension);
+ 			//var_dump($extension);
+			//exit;
+		switch ($extension) {
 		  	case "jpg":
 		  	case "jpeg":
+
 		  		$image = imagecreatefromjpeg($file["tmp_name"]);
 		  	break;
 		  	
@@ -81,7 +94,8 @@ class Product extends Model
 		  	case "png":
 		  		$image = imagecreatefrompng($file["tmp_name"]);
 		  	break; 
-		  }
+		  	
+		}
 
 		  $dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "res" . DIRECTORY_SEPARATOR . "site" . DIRECTORY_SEPARATOR . "img" . DIRECTORY_SEPARATOR . "products" .DIRECTORY_SEPARATOR . $this->getidproduct() . ".jpg";
 
@@ -92,7 +106,7 @@ class Product extends Model
 		  $this->checkPhoto();
 	}
 
-
+//}
 
 
 
