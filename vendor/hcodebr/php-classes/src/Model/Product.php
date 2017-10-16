@@ -15,6 +15,19 @@ class Product extends Model
 		return $sql->select("SELECT * FROM tb_products ORDER BY desproduct");
 	}
 
+	public static function checkList($list){
+
+		foreach ($list as &$row) {
+			
+			$p = new Product();
+			$p->setData($row);
+			$row = $p->getValues();
+		}
+
+		return $list;
+	}
+
+
 	public function save(){
 	$sql = new Sql();
  
@@ -73,9 +86,9 @@ class Product extends Model
 	public function setPhoto($file){
 
 		//detectar o tipo de extensão do arquivo
-		/*if(empty( $file['name'])){
+		if(empty( $file['name'])){
  			$this->checkPhoto();
- 		}else{*/
+ 		}else{
  			$extension = explode('.', $file['name']);
  			$extension = end($extension);
  			//var_dump($extension);
@@ -106,11 +119,7 @@ class Product extends Model
 		  $this->checkPhoto();
 	}
 
-//}
-
-
-
-
+}
 
 }
  ?>
