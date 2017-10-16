@@ -10,7 +10,8 @@ class User extends Model
 {
 
 	const SESSION = "";
-	const SECRET = "";
+const SECRET = "";
+
 
 	public static function login($login, $password)
 	{
