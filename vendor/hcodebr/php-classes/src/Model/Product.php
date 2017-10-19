@@ -46,11 +46,11 @@ class Product extends Model
 	));
  
 	$this->setData($results[0]);
-}
+	}
 
 	public function get($idproduct){
 		$sql = new Sql();
-		$results = $sql->select("SELECT * FROM tb_products WHERE idproduct = :idproduct", [':idproduct'=>$idproduct]);
+		$results = $sql->select("SELECT * FROM tb_products WHERE idproduct = :idproduct", array(':idproduct'=>$idproduct));
 		$this->setData($results[0]);
 	}
 
@@ -117,9 +117,34 @@ class Product extends Model
 		  imagedestroy($image);
 
 		  $this->checkPhoto();
+		}
 	}
 
-}
+	public function getFromURL($desurl){
+
+		$sql = new Sql();
+		$rows = $sql->select("SELECT * FROM tb_products WHERE desurl = :desurl LIMIT 1", [
+			':desurl'=>$desurl
+		]);
+
+		$this->setData($rows[0]);
+	}
+
+	public function getCategories(){
+
+		$sql = new Sql();
+		return $sql->select("
+			SELECT * FROM tb_categories a 
+			INNER JOIN tb_productscategories b 
+			ON a.idcategory = b.idcategory
+			WHERE b.idproduct = :idproduct
+			", [
+				':idproduct'=>$this->getidproduct()
+
+
+			]);
+	}
+
 
 }
- ?>
+?>
