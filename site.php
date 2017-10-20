@@ -79,9 +79,6 @@ $app->get("/cart/:idproduct/add", function($idproduct){
 		$cart->addProduct($product);
 	}
 
-	//var_dump($cart->addProduct($product));
-	//exit;
-
 	header("Location: /cart");
 	exit;
 });

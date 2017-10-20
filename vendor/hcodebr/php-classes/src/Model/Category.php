@@ -35,7 +35,6 @@ class Category extends Model
 		$sql = new Sql();
 		$results = $sql->select("SELECT * FROM tb_categories WHERE idcategory = :idcategory", [':idcategory'=>$idcategory]);
 		$this->setData($results[0]);
-		Category::updateFile();
 	}
 
 	public function delete(){

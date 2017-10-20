@@ -7,9 +7,10 @@ use Rain\Tpl;
 class Mailer
 {
 						
-	const USERNAME = "<email>";
-const PASSWORD = "<senha>";
-const NAME_FROM = "<nome da loja>";
+	const USERNAME = "lojavirtualmns@gmail.com";
+const PASSWORD = "16021966";
+const NAME_FROM = "loja virtual";
+
 
 	private $mail;
 	
@@ -34,7 +35,7 @@ const NAME_FROM = "<nome da loja>";
 
 		$this->mail = new \PHPMailer;
 
-		$this->mail->SMTPOptions = array( 'ssl' => array( 'verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true ) );
+		//$this->mail->SMTPOptions = array( 'ssl' => array( 'verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true ) );
 
 		// Tell PHPMailer to use SMTP
 		$this->mail->isSMTP();

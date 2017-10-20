@@ -6,12 +6,12 @@ use \Hcode\DB\Sql;
 use \Hcode\Model;
 use \Hcode\Mailer;
 use \Hcode\Model\User;
+USE \Hcode\Model\Product;
 
 
 class Cart extends Model
 {
 	const SESSION = "Cart";
-
 
 	public function getFromSession(){
 
@@ -29,16 +29,15 @@ class Cart extends Model
 					'dessessionid'=>session_id()
 				];
 
-				if(User::checkLogin(false)){
+				if(User::checkLogin(false)){ //nesse if, ele está logado, e com isso o getFromSession da user.php funciona e traz o usuário
 
 					$user = User::getFromSession();
-					$data['iduser'] = $user->getiduser();
-				
+					$data['iduser'] = $user->getiduser();//passa para o data o id do usuário
 				}
 
-				$cart->setData($data);
-				$cart->save();
-				$cart->setToSession();
+				$cart->setData($data);//passa a variável data para dentro do cart
+				$cart->save();// salva no banco
+				$cart->setToSession(); //coloca na sessão
 
 			}
 		}
@@ -49,6 +48,7 @@ class Cart extends Model
 	public function setToSession(){
 
 		$_SESSION[Cart::SESSION] = $this->getValues();
+
 	}
 
 
@@ -102,11 +102,11 @@ class Cart extends Model
 	public function addProduct(Product $product){
 
 		$sql = new Sql();
-		$sql->query("INSERT INTO tb_cartsproducts (idcart, idproduct) VALUES (:idcart, :idproduct)", [
+		$sql->query("INSERT INTO tb_cartsproducts (idcart, idproduct) VALUES(:idcart, :idproduct)", [
 			':idcart'=>$this->getidcart(),
-			'idproduct'=>$product->getidproduct()
+			':idproduct'=>$product->getidproduct()
 		]);
-
+			
 	}
 
 	public function removeProduct(Product $product, $all = false){
@@ -131,15 +131,7 @@ class Cart extends Model
 	public function getProducts(){
 
 		 $sql = new Sql();
-
-		var_dump("SELECT b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl, COUNT(*) AS nrqtd, SUM(b.vlprice) AS vltotal
-			FROM tb_cartsproducts a 
-			INNER JOIN tb_products b ON a.idproduct = b.idproduct
-			WHERE a.idcart = :idcart AND a.dtremoved IS NULL
-			GROUP BY b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl
-			ORDER BY b.desproduct");
-		 exit;
-
+		
 
 		$rows = $sql->select("SELECT b.idproduct, b.desproduct, b.vlprice, b.vlwidth, b.vlheight, b.vllength, b.vlweight, b.desurl, COUNT(*) AS nrqtd, SUM(b.vlprice) AS vltotal
 			FROM tb_cartsproducts a 

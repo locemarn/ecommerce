@@ -9,9 +9,20 @@ use \Hcode\Mailer;
 class User extends Model
 {
 
-	const SESSION = "";
-const SECRET = "";
+	const SESSION = "User";
+const SECRET = "HcodePhp7_Secret";
 
+public static function getFromSession(){
+
+	$user = new User();
+
+	if(isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]['iduser'] > 0){
+
+		$user->setData($_SESSION[User::SESSION]);
+	}
+
+	return $user;
+}
 
 	public static function checkLogin($inadmin = true){
 
@@ -26,14 +37,14 @@ const SECRET = "";
 				return false;
 
 		}else{
-
+			//está logado e é adm
 			if($inadmin === true && (bool)$_SESSION[User::SESSION]['iduser'] === true){
 
 					return true;
-			}else if($inadmin === false){
+			}else if($inadmin === false){    //logado e não adm, mas pode entrar
 
 					return true;
-			}else {
+			}else {		//não está logado
 
 				return false;
 			}
@@ -73,21 +84,12 @@ const SECRET = "";
 	}	
 	public static function verifyLogin($inadmin = true){
 
-		if (
-			//!isset($_SESSION[User::SESSION])
-			//||
-			//!$_SESSION[User::SESSION]
-			//||
-			//!(int)$_SESSION[User::SESSION]["iduser"] > 0
-			//||
-			//(bool)$_SESSION[User::SESSION]["inadmin"] !== $inadmin)
-
-			!User::checkLogin($inadmin)){
-				if ($inadmin) {
-					header("Location: /admin/login");
-				} else {
-					header("Location: /login");
-				}
+		if (User::checkLogin($inadmin)){
+			if ($inadmin) {
+				header("Location: /admin/login");
+			} else {
+				header("Location: /login");
+			}
 			exit;
 		}
 	}
@@ -154,7 +156,7 @@ const SECRET = "";
 			":iduser"=>$this->getiduser()));
 	}
 
-	public static function getForgot($email)
+	public static function getForgot($email, $inadmin = true)
 	{
 
 		$sql = new Sql();
@@ -184,7 +186,7 @@ const SECRET = "";
 
 			$code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, User::SECRET, $dataRecovery["idrecovery"], MCRYPT_MODE_ECB));
 
-			$link = "http://www.lojadomarcelo.com.br/admin/forgot/reset?code=$code";
+			$link = "http://www.lojadomarcelo.com.br:8080/admin/forgot/reset?code=$code";
 
 			$mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir senha.", "forgot", array(
 				"name"=>$data["desperson"],
@@ -192,7 +194,7 @@ const SECRET = "";
 
 				$mailer->send();
 
-				return $data;
+			return $data;
 			
 		}
 	}
