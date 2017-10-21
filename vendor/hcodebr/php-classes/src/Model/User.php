@@ -9,8 +9,8 @@ use \Hcode\Mailer;
 class User extends Model
 {
 
-	const SESSION = "User";
-const SECRET = "HcodePhp7_Secret";
+	const SESSION = "";
+const SECRET = "";
 
 public static function getFromSession(){
 
@@ -84,7 +84,7 @@ public static function getFromSession(){
 	}	
 	public static function verifyLogin($inadmin = true){
 
-		if (User::checkLogin($inadmin)){
+		if (!User::checkLogin($inadmin)){
 			if ($inadmin) {
 				header("Location: /admin/login");
 			} else {
