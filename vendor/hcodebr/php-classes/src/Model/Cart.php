@@ -10,32 +10,27 @@ class Cart extends Model
 	const SESSION = "Cart";
 	const SESSION_ERROR = "CartError";
 
-		public static function getFromSession(){
-
+	public static function getFromSession()
+	{
 		$cart = new Cart();
-		
-		if(isset($_SESSION[Cart::SESSION]) && (int)$_SESSION[Cart::SESSION]['idcart'] > 0){  
-			$cart->get((int)$_SESSION[Cart::SESSION]['idcart']);  
-		}else{
+		if (isset($_SESSION[Cart::SESSION]) && (int)$_SESSION[Cart::SESSION]['idcart'] > 0) {
+			$cart->get((int)$_SESSION[Cart::SESSION]['idcart']);
+		} else {
 			$cart->getFromSessionID();
-
-			if(!(int)$cart->getidcart() > 0){
+			if (!(int)$cart->getidcart() > 0) {
 				$data = [
-					'dessessionid'=>session_id(),
-					'idcart'=>0
+					'dessessionid'=>session_id()
 				];
-				if(User::checkLogin(false)){ //nesse if, ele está logado, e com isso o getFromSession da user.php funciona e traz o usuário
+				if (User::checkLogin(false)) {
 					$user = User::getFromSession();
-					$data['iduser'] = $user->getiduser();//passa para o data o id do usuário
+					
+					$data['iduser'] = $user->getiduser();	
 				}
-
-				$cart->setData($data);//passa a variável data para dentro do cart
-				$cart->save();// salva no banco
-				$cart->setToSession(); //coloca na sessão
-
+				$cart->setData($data);
+				$cart->save();
+				$cart->setToSession();
 			}
 		}
-
 		return $cart;
 	}
 
@@ -142,26 +137,21 @@ class Cart extends Model
 		return Product::checkList($rows);
 	}
 
-	public function getProductsTotals(){
-
+	public function getProductsTotals()
+	{
 		$sql = new Sql();
 		$results = $sql->select("
-			SELECT SUM(vlprice) AS vlprice,
-			SUM(vlwidth) AS vlwidth,
-			SUM(vlheight) AS vlheight,
-			SUM(vllength) AS vllength,
-			SUM(vlweight) AS vlweight,
-			COUNT(*) AS nrqtd
-			FROM tb_cartsproducts b ON a.idproduct = b.idproduct
+			SELECT SUM(vlprice) AS vlprice, MAX(vlwidth) AS vlwidth, SUM(vlheight) AS vlheight, MAX(vllength) AS vllength, SUM(vlweight) AS vlweight, COUNT(*) AS nrqtd
+			FROM tb_products a
+			INNER JOIN tb_cartsproducts b ON a.idproduct = b.idproduct
 			WHERE b.idcart = :idcart AND dtremoved IS NULL;
-		",[
+		", [
 			':idcart'=>$this->getidcart()
 		]);
-
-		if(count($results) > 0){
+		if (count($results) > 0) {
 			return $results[0];
-		}else{
-			return[];
+		} else {
+			return [];
 		}
 	}
 
@@ -172,13 +162,16 @@ class Cart extends Model
 		$totals = $this->getProductsTotals();
 
 		if($totals['nrqtd'] > 0){
+			if ($totals['vlheight'] < 2) $totals['vlheight'] = 2;
+			if ($totals['vllength'] < 16) $totals['vllength'] = 16;
+			if ($totals['vlwidth'] < 11) $totals['vlwidth'] = 11;
 
 			$qs = http_build_query([
 				'nCdEmpresa'=>'',
 				'sDsSenha'=>'',
-				'nCdServico'=>'40010',
-				'sCepOrigem'=>'18050636',
-				'sCepDestino'=>'$nrzipcode',
+				'nCdServico'=>'41106',
+				'sCepOrigem'=>'09853120',
+				'sCepDestino'=>$nrzipcode,
 				'nVlPeso'=>$totals['vlweight'],
 				'nCdFormato'=>'1',
 				'nVlComprimento'=>$totals['vllength'],
@@ -186,16 +179,14 @@ class Cart extends Model
 				'nVlLargura'=>$totals['vlwidth'],
 				'nVlDiametro'=>'0',
 				'sCdMaoPropria'=>'S',
-				'nVlValorDeclarado'=>'S',
+				'nVlValorDeclarado'=>$totals['vlprice'],
 				'sCdAvisoRecebimento'=>'S'
 			]);
 
-			$xml = simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?");
 
-			$result - $xml->Servicos->cServico;
-
+			$xml = simplexml_load_file("http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx/CalcPrecoPrazo?".$qs);
+			$result = $xml->Servicos->cServico;
 			if ($result->MsgErro != '') {
-				
 				Cart::setMsgError($result->MsgErro);
 
 			}else{
@@ -225,7 +216,7 @@ class Cart extends Model
 
 	public static function setMsgError($msg)	{
 
-		$_SESSION[Cart::SESSION_ERROR] = $msn;
+		$_SESSION[Cart::SESSION_ERROR] = $msg;
 	}
 
 	public static function getMsgError()	{
@@ -241,10 +232,9 @@ class Cart extends Model
 		$_SESSION[Cart::SESSION_ERROR] = NULL;
 	}
 
-	public function updateFreight(){
-
-		if($this->getdeszipcode() != ""){
-
+	public function updateFreight()
+	{
+		if ($this->getdeszipcode() != '') {
 			$this->setFreight($this->getdeszipcode());
 		}
 	}
@@ -255,15 +245,15 @@ class Cart extends Model
 		return parent::getValues();
 	}
 
-	public function getCalculateTotal(){
-
+	public function getCalculateTotal()
+	{
 		$this->updateFreight();
-
 		$totals = $this->getProductsTotals();
 
 		$this->setvlsubtotal($totals['vlprice']);
 		$this->setvltotal($totals['vlprice'] + $this->getvlfreight());
 	}
+
 
 }
 ?>

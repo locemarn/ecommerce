@@ -97,12 +97,12 @@
 
                                             <tr class="shipping">
                                                 <th>Frete</th>
-                                                <td>R${formatPrice($cart.vlfreight)} {if="$cart.nrdays > 0"}<small>prazo de {$cart.nrdays} dia(s)</small>{/if}</td>
+                                                <td>R${function="formatPrice($cart.vlfreight)"}{if="$cart.nrdays > 0"} <small>prazo de {$cart.nrdays} dia(s)</small>{/if}</td>
                                             </tr>
 
                                             <tr class="order-total">
                                                 <th>Total</th>
-                                                <td><strong><span class="amount">R${function="formatPrice($cart.vlsubtotal)"}</span></strong> </td>
+                                                <td><strong><span class="amount">R${function="formatPrice($cart.vltotal)"}</span></strong> </td>
                                             </tr>
                                         </tbody>
                                     </table>
