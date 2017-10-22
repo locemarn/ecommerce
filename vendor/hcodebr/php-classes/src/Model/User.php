@@ -11,7 +11,6 @@ class User extends Model
 
 	const SESSION = "";
 const SECRET = "";
-
 	const ERROR = "UserERROR";
 	const ERROR_REGISTER = "UserErrorRegister";
 
@@ -263,6 +262,7 @@ public static function getFromSession()
 	public static function getErrorRegister(){
 
 		$msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';
+
 		User::clearErrorRegister();
 		return $msg;
 	}
@@ -274,9 +274,11 @@ public static function getFromSession()
 	public static function checkLoginExist($login){
 
 		$sql = new Sql();
+
 		$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", [
 			':deslogin'=>$login
 		]);
+		
 		return (count($results) > 0);
 	}
 
