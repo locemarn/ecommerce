@@ -182,7 +182,15 @@ public static function getFromSession()
 
 			$code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, User::SECRET, $dataRecovery["idrecovery"], MCRYPT_MODE_ECB));
 
-			$link = "http://www.lojadomarcelo.com.br:8080/admin/forgot/reset?code=$code";
+			//$code = base64_encode(mcrypt_encrypt(cipher, key, data, mode))
+			//$code = base64_encode(openssl_encrypt($dataRecovery["idrecovery"], OPENSSL_RAW_DATA, User::SECRET));
+
+
+			if($inadmin = true){
+				$link = "http://www.ecommerce.com.br:8080/admin/forgot/reset?code=$code";
+			}else{
+				$link = "http://www.ecommerce.com.br:8080/forgot/reset?code=$code";	
+			}
 
 			$mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir senha.", "forgot", array(
 				"name"=>$data["desperson"],
@@ -199,6 +207,10 @@ public static function getFromSession()
 	public static function validForgotDecrypt($code)
 	{
 		$idrecovery = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, User::SECRET, base64_decode($code), MCRYPT_MODE_ECB);
+		//$idrecovery = mcrypt_decrypt(cipher, key, data, mode);
+		//$idrecovery = openssl_decrypt(base64_decode($code), MCRYPT_MODE_ECB, User::SECRET);
+
+
 		$sql = new Sql();
 		$results = $sql->select("
 			SELECT * 
@@ -278,7 +290,6 @@ public static function getFromSession()
 		$results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", [
 			':deslogin'=>$login
 		]);
-		
 		return (count($results) > 0);
 	}
 
@@ -288,10 +299,6 @@ public static function getFromSession()
 		]);
 	}
 
-
-
 }
-
-
 
 ?>
