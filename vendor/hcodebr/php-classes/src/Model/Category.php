@@ -158,6 +158,7 @@ class Category extends Model
 			'pages'=>ceil($resultTotal[0]["nrtotal"] / $itemsPerPage)
 		];
 	}
+	
 	public static function getPageSearch($search, $page = 1, $itemsPerPage = 10)
 	{
 		$start = ($page - 1) * $itemsPerPage;
