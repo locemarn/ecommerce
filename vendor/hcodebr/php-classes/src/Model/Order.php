@@ -3,6 +3,8 @@ namespace Hcode\Model;
 use \Hcode\DB\Sql;
 use \Hcode\Model;
 use \Hcode\Model\Cart;
+use \Hcode\Model\Order;
+
 class Order extends Model {
 	const SUCCESS = "Order-Success";
 	const ERROR = "Order-Error";
@@ -95,6 +97,7 @@ class Order extends Model {
 	{
 		$_SESSION[Order::SUCCESS] = NULL;
 	}
+	
 	public static function getPage($page = 1, $itemsPerPage = 10)
 	{
 		$start = ($page - 1) * $itemsPerPage;
@@ -143,5 +146,6 @@ class Order extends Model {
 			'pages'=>ceil($resultTotal[0]["nrtotal"] / $itemsPerPage)
 		];
 	}
+
 }
 ?>
