@@ -86,6 +86,7 @@
     
     <!-- Main Script -->
     <script src="res/site/js/main.js"></script>
+    <script type="text/javascript" src="res/site/js/menu.js"></script>
     
     <!-- Slider -->
     <script type="text/javascript" src="res/site/js/bxslider.min.js"></script>

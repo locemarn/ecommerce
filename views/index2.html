@@ -1,0 +1,88 @@
+
+    
+    <div class="maincontent-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="latest-product">
+                        <h2 class="section-title">Produtos em Promoção</h2>
+                        <div class="product-carousel">
+                            {loop="$products"}
+                            <div class="single-product">
+                                <div class="product-f-image">
+                                    <img src="{$value.desphoto}" alt="">
+                                    <div class="product-hover">
+                                        <a href="/cart/{$value.idproduct}/add" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Comprar</a>
+                                        <a href="/products/{$value.desurl}" class="view-details-link"><i class="fa fa-link"></i> Ver Detalhes</a>
+                                    </div>
+                                </div>
+                                
+                                <h2><a href="/products/{$value.desurl}">{$value.desproduct}</a></h2>
+                                
+                                <div class="product-carousel-price">
+                                    <ins>R${function="formatPrice($value.vlprice)"}</ins>
+                                </div> 
+                            </div>
+                            {/loop}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End main content area -->
+    <div class="maincontent-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="latest-product">
+                        <h2 class="section-title">Produtos mais visto</h2>
+                        <div class="product-carousel">
+                            {loop="$products"}
+                            <div class="single-product">
+                                <div class="product-f-image">
+                                    <img src="{$value.desphoto}" alt="">
+                                    <div class="product-hover">
+                                        <a href="/cart/{$value.idproduct}/add" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Comprar</a>
+                                        <a href="/products/{$value.desurl}" class="view-details-link"><i class="fa fa-link"></i> Ver Detalhes</a>
+                                    </div>
+                                </div>
+                                
+                                <h2><a href="/products/{$value.desurl}">{$value.desproduct}</a></h2>
+                                
+                                <div class="product-carousel-price">
+                                    <ins>R${function="formatPrice($value.vlprice)"}</ins>
+                                </div> 
+                            </div>
+                            {/loop}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End main content area -->
+    
+    <div class="brands-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="brand-wrapper">
+                        <div class="brand-list">
+                            <img src="/res/site/img/brand1.png" alt="">
+                            <img src="/res/site/img/brand2.png" alt="">
+                            <img src="/res/site/img/brand3.png" alt="">
+                            <img src="/res/site/img/brand4.png" alt="">
+                            <img src="/res/site/img/brand5.png" alt="">
+                            <img src="/res/site/img/brand6.png" alt="">
+                            <img src="/res/site/img/brand1.png" alt="">
+                            <img src="/res/site/img/brand2.png" alt="">                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End brands area -->

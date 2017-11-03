@@ -45,6 +45,16 @@ $app->get("/products/:desurl", function($desurl){
 		'categories'=>$product->getCategories()
 	]);
 });
+
+$app->get("/products", function(){
+
+	$page = new Page();
+	$products = Product::listAll();
+	$page->setTpl("index2", [
+		'products'=>Product::checkList($products)]);
+
+});
+
 $app->get("/cart", function(){
 	$cart = Cart::getFromSession();
 	$page = new Page();

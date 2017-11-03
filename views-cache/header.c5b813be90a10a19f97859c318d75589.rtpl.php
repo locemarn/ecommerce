@@ -114,12 +114,24 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/">Home</a></li>
-                        <li><a href="#">Produtos</a></li>
+                        <li><a href="/products">Produtos</a></li>
                         <li><a href="/cart">Carrinho</a></li>
-                        <!--<li><a href="#">Categoria</a></li>
-                        <ul>
-                            <?php require $this->checkTemplate("categories-menu");?>                        
-                        </ul>-->
+
+
+                        <li class="submenu">
+                            <a href="#" class="dropbtn" style="display: inline-block;">Categorias 
+                                <span class="glyphicon glyphicon-chevron-down"></span></a>
+
+                            <div class="dropdown-content">
+                                <ul style="list-style-type: none;">
+                                    <li><?php require $this->checkTemplate("categories-menu");?></li>
+                                </ul>
+                            </div>   
+                        </li>
+
+
+<!-- <?php require $this->checkTemplate("categories-menu");?> -->
+
                     </ul>
                 </div>  
             </div>
