@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hcode Store</title>
+    <title>Fire Shop</title>
     
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
@@ -41,7 +41,7 @@
                     <div class="user-menu">
                         <ul>
                             <li><a href="/profile"><i class="fa fa-user"></i> Minha Conta</a></li>
-                            <li><a href="#"><i class="fa fa-heart"></i> Lista de Desejos</a></li>
+                            <!-- <li><a href="#"><i class="fa fa-heart"></i> Lista de Desejos</a></li> -->
                             <li><a href="/cart"><i class="fa fa-shopping-cart"></i> Meu Carrinho</a></li>
                             <?php if( checkLogin(false) ){ ?>
 
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                     <div class="header-right">
                         <ul class="list-unstyled list-inline">
                             <li class="dropdown dropdown-small">
@@ -77,7 +77,7 @@
                             </li>
                         </ul>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div> <!-- End header area -->
@@ -87,7 +87,8 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div class="logo">
-                        <h1><a href="/"><img src="res/site/img/logo.png"></a></h1>
+                        <h1><a href="/"><img src="res/site/img/fire-shop-logo.jpeg" style="width: 60px; height: 80px;"></a>
+                            <a href="/"><img src="res/site/img/fire-shop.jpeg" style="width: 250px; height: 80px;"></a></h1>
                     </div>
                 </div>
                 
@@ -100,7 +101,7 @@
         </div>
     </div> <!-- End site branding area -->
     
-    <div class="mainmenu-area">
+    <div class="mainmenu-area" style="background-color: #f1f1f1">
         <div class="container">
             <div class="row">
                 <div class="navbar-header">
@@ -113,27 +114,32 @@
                 </div> 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">Home</a></li>
-                        <li><a href="/products">Produtos</a></li>
-                        <li><a href="/cart">Carrinho</a></li>
-
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/login">Login</a></li>
 
                         <li class="submenu">
-                            <a href="#" class="dropbtn" style="display: inline-block;">Categorias 
+                            <a href="#" class="dropbtn">Produtos 
                                 <span class="glyphicon glyphicon-chevron-down"></span></a>
 
-                            <div class="dropdown-content">
-                                <ul style="list-style-type: none;">
+                            <div class="dropdown-content" >
+                                <ul id="drop-buttom">
                                     <li><?php require $this->checkTemplate("categories-menu");?></li>
                                 </ul>
                             </div>   
                         </li>
 
+                        
+                        <li><a href="/cart">Carrinho</a></li>
 
-<!-- <?php require $this->checkTemplate("categories-menu");?> -->
+                        <li><a href="/nossa-loja">Quem somos</a></li>
 
+                        <li><a href="/contato">Fale Conosco</a></li>
+
+                    
                     </ul>
                 </div>  
             </div>
         </div>
     </div> <!-- End mainmenu area -->
+                        
+    <script type="text/javascript" src="../res/site/js/menu.js"></script>

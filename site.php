@@ -17,6 +17,8 @@ $app->get('/', function() {
 		'products'=>Product::checkList($products)]);
 	
 });
+
+
 $app->get("/categories/:idcategory", function($idcategory){
 	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
 	$category = new Category();
@@ -52,6 +54,27 @@ $app->get("/products", function(){
 	$products = Product::listAll();
 	$page->setTpl("index2", [
 		'products'=>Product::checkList($products)]);
+
+});
+
+$app->get('/contato', function(){
+
+	$page = new Page();
+	$page->setTpl("contato");
+
+});
+
+$app->get('/contato-confirm', function(){
+
+	$page = new Page();
+	$page->setTpl("contato-confirmacao");
+
+});
+
+$app->get('/nossa-loja', function(){
+
+	$page = new Page();
+	$page->setTpl("nossa-loja");
 
 });
 
@@ -356,6 +379,8 @@ $app->post("/forgot/reset", function(){
 	$page->setTpl("forgot-reset-success");
 });
 
+
+
 $app->get("/profile", function(){
 
 	User::verifyLogin(false);
@@ -472,19 +497,19 @@ $dadosboleto["especie_doc"] = "";
 
 
 // DADOS DA SUA CONTA - ITAÚ
-$dadosboleto["agencia"] = "1690"; // Num da agencia, sem digito
-$dadosboleto["conta"] = "48781";	// Num da conta, sem digito
+$dadosboleto["agencia"] = "123"; // Num da agencia, sem digito
+$dadosboleto["conta"] = "45678";	// Num da conta, sem digito
 $dadosboleto["conta_dv"] = "2"; 	// Digito do Num da conta
 
 // DADOS PERSONALIZADOS - ITAÚ
 $dadosboleto["carteira"] = "175";  // Código da Carteira: pode ser 175, 174, 104, 109, 178, ou 157
 
 // SEUS DADOS
-$dadosboleto["identificacao"] = "Hcode Treinamentos";
+$dadosboleto["identificacao"] = "Fireshop";
 $dadosboleto["cpf_cnpj"] = "24.700.731/0001-08";
-$dadosboleto["endereco"] = "Rua Ademar Saraiva Leão, 234 - Alvarenga, 09853-120";
-$dadosboleto["cidade_uf"] = "São Bernardo do Campo - SP";
-$dadosboleto["cedente"] = "HCODE TREINAMENTOS LTDA - ME";
+$dadosboleto["endereco"] = "Rua do trabalho, 123456";
+$dadosboleto["cidade_uf"] = "Sorocaba - SP";
+$dadosboleto["cedente"] = "Fireshop - ME";
 
 // NÃO ALTERAR!
 $path = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "res" . DIRECTORY_SEPARATOR . "boletophp" . DIRECTORY_SEPARATOR . "include" . DIRECTORY_SEPARATOR;
